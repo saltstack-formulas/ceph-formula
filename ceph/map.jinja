@@ -1,0 +1,28 @@
+# -*- coding: utf-8 -*-
+# vim: ft=jinja
+
+{## Start with defaults from defaults.yaml ##}
+{% import_yaml "ceph/defaults.yaml" as default_settings %}
+
+{##
+Setup variable using grains['os_family'] based logic, only add key:values here
+that differ from whats in defaults.yaml
+##}
+{% set os_family_map = salt['grains.filter_by']({
+    'Debian': {
+    },
+    'RedHat': {
+    },
+    'Arch': {},
+  }, grain='os_family', merge=salt['pillar.get']('ceph:lookup'))
+%}
+
+{## Merge the flavor_map to the default settings ##}
+{% do default_settings.ceph.update(os_family_map) %}
+
+{# Update settings defaults from pillar data #}
+{% set settings = salt['pillar.get'](
+    'ceph',
+    default=default_settings.ceph,
+    merge=True)
+%}
