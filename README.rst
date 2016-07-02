@@ -14,3 +14,15 @@ Available states
 
 .. contents::
     :local:
+
+``repo``
+----------
+
+Configure ceph repository.
+
+For a list of all available options, look at: `ceph/defaults.yaml` - also have a look at the pillar.example and map.jinja.
+
+Currently tested under:
+=======================
+
+* Ubuntu 16.04 LTS

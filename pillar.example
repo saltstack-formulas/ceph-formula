@@ -1,0 +1,2 @@
+ceph:
+  release: jewel #Set release name
