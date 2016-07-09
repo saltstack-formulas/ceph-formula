@@ -26,3 +26,17 @@ that differ from whats in defaults.yaml
     default=default_settings.ceph,
     merge=True)
 %}
+
+{% if settings.config.global.authentication_type == 'cephx' %}
+    {% set auth_type = 'cephx' %}
+{% else %}
+    {% set auth_type = 'none' %}
+{% endif %}
+
+{% do settings.config.global.update(
+    { 'auth_cluster_required': auth_type,
+      'auth_service_required': auth_type,
+      'auth_client_required': auth_type,
+      'auth_supported': auth_type
+    })
+%}
