@@ -1,2 +1,9 @@
 ceph:
   release: jewel #Set release name
+  # Set ceph config file settings
+  config:
+    # Set global section configuration
+    global:
+      # Set cluster id, use command 'uuidgen' to generate it
+      fsid: 0fffffff-35be-40a0-a76e-fff899cb85da
+      authentication_type: 'none'

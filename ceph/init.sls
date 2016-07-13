@@ -9,3 +9,10 @@ include:
 install_ceph_pkgs:
   pkg.installed:
     - pkgs: {{ settings.packages }}
+
+ceph_config_file:
+  ini.options_present:
+    - name: /etc/ceph/ceph.conf
+    - sections:
+        global:
+          {{ settings.config.global }}
