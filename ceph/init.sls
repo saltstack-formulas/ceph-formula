@@ -16,3 +16,10 @@ ceph_config_file:
     - sections:
         global:
           {{ settings.config.global }}
+
+ceph_config_mon_host:
+  ini.options_present:
+    - name: /etc/ceph/ceph.conf
+    - sections:
+        global:
+          mon_host: {{ settings.mon_hosts|join(', ') }}

@@ -8,3 +8,5 @@ ceph:
   config:
     global:
       authentication_type: 'cephx'
+  mon_hosts: []
+
