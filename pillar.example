@@ -16,3 +16,5 @@ ceph:
     active:
       - /dev/sdc
       - /dev/sdd
+    removed:
+      - /dev/sde
