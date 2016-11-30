@@ -16,5 +16,7 @@ ceph:
     active:
       - /dev/sdc
       - /dev/sdd
+      # if you want to specify separate journal device
+      - /dev/sdj:/dev/sdb1 # data-path:journal-path
     removed:
       - /dev/sde

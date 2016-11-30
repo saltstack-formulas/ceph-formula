@@ -3,22 +3,29 @@
 
 {% from "ceph/map.jinja" import settings with context -%}
 
-{% for osd_device in settings.osds.active %}
+{% for active_osd in settings.osds.active %}
+    {% set osd_params = active_osd.split(':') %}
+    {% set data_path = osd_params[0] %}
+    {% if osd_params|length == 2 %}
+        {% set journal_path = osd_params[1] %}
+    {% else %}
+        {% set journal_path = '' %}
+    {% endif %}
 
-zap_disk_{{ osd_device }}:
+zap_disk_{{ data_path }}:
   cmd.run:
-    - name: 'ceph-disk zap {{ osd_device }}'
-    - unless: "ceph-disk list | grep -E ' *{{ osd_device }}1? .*ceph data, (prepared|active)'"
+    - name: 'ceph-disk zap {{ data_path }}'
+    - unless: "ceph-disk list | grep -E ' *{{ data_path }}1? .*ceph data, (prepared|active)'"
 
-prepare_osd_device_{{ osd_device }}:
+prepare_osd_device_{{ data_path }}:
   cmd.run:
-    - name: 'ceph-disk prepare {{ osd_device }}'
-    - unless: "ceph-disk list | grep -E ' *{{ osd_device }}1? .*ceph data, (prepared|active)'"
+    - name: 'ceph-disk prepare {{ data_path }} {{ journal_path }}'
+    - unless: "ceph-disk list | grep -E ' *{{ data_path }}1? .*ceph data, (prepared|active)'"
 
 {% endfor %}
 
 {% for removed_osd in settings.osds.removed %}
-  {% set osd_id = salt['cmd.run']("ceph-disk list | grep '" ~ removed_osd ~ "1 ceph' | awk -F'[.,]' '{print $5}'") %}
+    {% set osd_id = salt['cmd.run']("ceph-disk list | grep '" ~ removed_osd ~ "1 ceph' | awk -F'[.,]' '{print $5}'") %}
 
 osd_out_{{ removed_osd }}:
   cmd.run:
