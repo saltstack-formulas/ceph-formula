@@ -20,7 +20,17 @@ Available states
 
 Configure ceph repository.
 
-For a list of all available options, look at: `ceph/defaults.yaml` - also have a look at the pillar.example and map.jinja.
+``mon``
+----------
+
+Install and configure Ceph monitor.
+
+``osd``
+----------
+
+Install and configure Ceph OSDs.
+
+For a list of all available options, look at: *ceph/defaults.yaml* - also have a look at the *pillar.example* and *map.jinja*.
 
 Currently tested under:
 =======================
