@@ -1,0 +1,4 @@
+base:
+  '*':
+    - ceph
+    - ceph.mon
