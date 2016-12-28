@@ -19,7 +19,7 @@ zap_disk_{{ data_path }}:
 
 prepare_osd_device_{{ data_path }}:
   cmd.run:
-    - name: 'ceph-disk prepare {{ data_path }} {{ journal_path }}'
+    - name: 'ceph-disk prepare --cluster {{ settings.cluster_name }} {{ data_path }} {{ journal_path }}'
     - unless: "ceph-disk list | grep -E ' *{{ data_path }}1? .*ceph data, (prepared|active)'"
 
 {% endfor %}
@@ -39,24 +39,24 @@ stop_service_{{ removed_osd }}:
 
 crush_remove_{{ removed_osd }}:
   cmd.run:
-    - name: 'ceph osd crush remove osd.{{ osd_id }}'
+    - name: 'ceph --cluster {{ settings.cluster_name }} osd crush remove osd.{{ osd_id }}'
     - unless: "ceph-disk list | grep -E ' *{{ removed_osd }}1? .*ceph data, unprepared'"
 
 auth_del_{{ removed_osd }}:
   cmd.run:
-    - name: 'ceph auth del osd.{{ osd_id }}'
+    - name: 'ceph --cluster {{ settings.cluster_name }} auth del osd.{{ osd_id }}'
     - unless: "ceph-disk list | grep -E ' *{{ removed_osd }}1? .*ceph data, unprepared'"
 
 osd_rm_{{ removed_osd }}:
   cmd.run:
-    - name: 'ceph osd rm {{ osd_id }}'
+    - name: 'ceph --cluster {{ settings.cluster_name }} osd rm {{ osd_id }}'
     - unless: "ceph-disk list | grep -E ' *{{ removed_osd }}1? .*ceph data, unprepared'"
 
 rm_umount_rm_{{ removed_osd }}:
   cmd.run:
-    - name: 'rm -fr /var/lib/ceph/osd/ceph-{{ osd_id }}/* &&
-      umount /var/lib/ceph/osd/ceph-{{ osd_id }} &&
-      rm -fr /var/lib/ceph/osd/ceph-{{ osd_id }}'
+    - name: 'rm -fr /var/lib/ceph/osd/{{ settings.cluster_name }}-{{ osd_id }}/* &&
+      umount /var/lib/ceph/osd/{{ settings.cluster_name }}-{{ osd_id }} &&
+      rm -fr /var/lib/ceph/osd/{{ settings.cluster_name }}-{{ osd_id }}'
     - unless: "ceph-disk list | grep -E ' *{{ removed_osd }}1? .*ceph data, unprepared'"
 
 {% endfor %}
