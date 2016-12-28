@@ -5,6 +5,7 @@ ceph:
   release: jewel
   packages:
     - ceph
+  cluster_name: ceph
   config:
     global:
       authentication_type: 'cephx'

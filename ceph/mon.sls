@@ -3,8 +3,8 @@
 
 {% from "ceph/map.jinja" import settings with context -%}
 
-{% set mon_name = 'mymon' %}
-{% set mon_dir = salt['cmd.run']('ceph-mon  --id ' ~ mon_name ~ ' --show-config-value mon_data') %}
+{% set mon_name = grains['host'] %}
+{% set mon_dir = '/var/lib/ceph/mon/' ~ settings.cluster_name ~ '-' ~ mon_name %}
 
 mkdir_dir_for_{{ mon_name }}:
   file.directory:
@@ -14,7 +14,7 @@ mkdir_dir_for_{{ mon_name }}:
 
 add_mon_{{ mon_name }}:
   cmd.run:
-    - name: "ceph-mon --setuser ceph --setgroup ceph --mkfs --id {{ mon_name }} --keyring /dev/null"
+    - name: "ceph-mon --cluster {{ settings.cluster_name }} --setuser ceph --setgroup ceph --mkfs --id {{ mon_name }} --keyring /dev/null"
     - unless: 'test -d {{ mon_dir }}/store.db'
 
 start_mon_service_for_{{ mon_name }}:
