@@ -40,3 +40,7 @@ that differ from whats in defaults.yaml
       'auth_supported': auth_type
     })
 %}
+
+{% if settings.cluster_name %}
+  {% do settings.config.update( {'file': '/etc/ceph/' + settings.cluster_name + '.conf' %}
+{% endif %}
