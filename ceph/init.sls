@@ -12,19 +12,19 @@ install_ceph_pkgs:
 
 create_ceph_config_file:
   file.touch:
-    - name: /etc/ceph/{{ settings.cluster_name }}.conf
-    - unless: test -e /etc/ceph/{{ settings.cluster_name }}.conf
+    - name: {{ settings.config.file }}
+    - unless: test -e {{ settings.config.file }}
 
 ceph_config_file:
   ini.options_present:
-    - name: /etc/ceph/{{ settings.cluster_name }}.conf
+    - name: {{ settings.config.file }}
     - sections:
         global:
           {{ settings.config.global }}
 
 ceph_config_mon_host:
   ini.options_present:
-    - name: /etc/ceph/{{ settings.cluster_name }}.conf
+    - name: {{ settings.config.file }}
     - sections:
         global:
           mon_host: {{ settings.mon_hosts|join(', ') }}
