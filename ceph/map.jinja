@@ -42,5 +42,5 @@ that differ from whats in defaults.yaml
 %}
 
 {% if settings.cluster_name %}
-  {% do settings.config.update( {'file': '/etc/ceph/' + settings.cluster_name + '.conf' %}
+  {% do settings.config.update( {'file': '/etc/ceph/' + settings.cluster_name + '.conf' %} ) %}
 {% endif %}
