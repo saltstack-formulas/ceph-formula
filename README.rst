@@ -15,6 +15,11 @@ Available states
 .. contents::
     :local:
 
+``ceph``
+----------
+
+Install and configure Ceph
+
 ``repo``
 ----------
 
@@ -30,9 +35,10 @@ Install and configure Ceph monitor.
 
 Install and configure Ceph OSDs.
 
+
+Usage
+========
+
 For a list of all available options, look at: *ceph/defaults.yaml* - also have a look at the *pillar.example* and *map.jinja*.
 
-Currently tested under:
-=======================
-
-* Ubuntu 16.04 LTS
+Supports GNU Linux (Ubuntu, Fedora, Centos, Suse)

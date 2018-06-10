@@ -1,31 +1,28 @@
 # -*- coding: utf-8 -*-
 # vim: ft=jinja
 
-{## Start with defaults from defaults.yaml ##}
 {% import_yaml "ceph/defaults.yaml" as default_settings %}
+{% import_yaml "ceph/osfamilymap.yaml" as osfamilymap %}
+{% import_yaml "ceph/osmap.yaml" as osmap %}
+{% import_yaml "ceph/codenamemap.yaml" as oscodenamemap %}
 
-{##
-Setup variable using grains['os_family'] based logic, only add key:values here
-that differ from whats in defaults.yaml
-##}
-{% set os_family_map = salt['grains.filter_by']({
-    'Debian': {
-    },
-    'RedHat': {
-    },
-    'Arch': {},
-  }, grain='os_family', merge=salt['pillar.get']('ceph:lookup'))
-%}
-
-{## Merge the flavor_map to the default settings ##}
-{% do default_settings.ceph.update(os_family_map) %}
-
-{# Update settings defaults from pillar data #}
-{% set settings = salt['pillar.get'](
-    'ceph',
-    default=default_settings.ceph,
-    merge=True)
-%}
+{% set settings = salt['grains.filter_by'](
+    default_settings,
+    merge=salt['grains.filter_by'](
+        osfamilymap,
+        grain='os_family',
+        merge=salt['grains.filter_by'](
+            osmap,
+            grain='os',
+            merge=salt['grains.filter_by'](
+                oscodenamemap,
+                grain='oscodename',
+                merge=salt['pillar.get']('ceph', {}),
+                ),
+            ),
+        ),
+    base='ceph',
+) %}
 
 {% if settings.config.global.authentication_type == 'cephx' %}
     {% set auth_type = 'cephx' %}
@@ -42,5 +39,8 @@ that differ from whats in defaults.yaml
 %}
 
 {% if settings.cluster_name %}
-  {% do settings.config.update( {'file': '/etc/ceph/' + settings.cluster_name + '.conf' %}
+  {% do settings.config.update({'file': '/etc/ceph/' + settings.cluster_name + '.conf', }) %}
 {% endif %}
+
+# make 'ceph' alias for 'settings'
+{% set ceph = settings %}

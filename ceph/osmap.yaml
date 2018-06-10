@@ -1,0 +1,7 @@
+{%- from tpldir + '/repo/map.jinja' import repo with context %}
+
+Fedora:
+  pkg_repo:
+    baseurl: '{{ repo.official }}/rpm-{{ repo.release }}/{{ repo.oscode }}/$basearch'
+
+# vim: ft=sls

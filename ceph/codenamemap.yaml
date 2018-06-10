@@ -1,0 +1,41 @@
+{%- from tpldir + '/repo/map.jinja' import repo with context %}
+
+{% macro debian_codename(name, release, codename=none) %}
+    {% if repo.use_upstream_repo == true %}
+      {% set release = repo.release %}
+    {% endif %}
+{{ codename|default(name, true) }}:
+  fromrepo: {{ repo.fromrepo|default(name, true) }}
+  pkg_repo:
+    name: 'deb {{ repo.official }}/debian-{{ release }}/ {{ name }} main'
+{% endmacro %}
+
+
+{% macro redhat_codename(name, release, codename=none) %}
+    {% if repo.use_upstream_repo == true %}
+      {% set release = repo.release %}
+    {% endif %}
+{{ codename|default(name, true) }}:
+  fromrepo: {{ repo.fromrepo|default(name, true) }}
+  pkg_repo:
+    baseurl: '{{ repo.official }}/rpm-{{ release }}/$releasever'
+{% endmacro %}
+
+## oscodename mappings
+{{ debian_codename('wheezy', 'firefly') }}
+{{ debian_codename('wheezy', 'firefly', 'Debian GNU/Linux 7 (wheezy)') }}
+{{ debian_codename('jessie', 'jewel') }}  #backports
+{{ debian_codename('jessie', 'jewel', 'Debian GNU/Linux 8 (jessie)') }}  #backports
+{{ debian_codename('stretch', 'jewel') }}
+{{ debian_codename('stretch', 'jewel', 'Debian GNU/Linux 9 (stretch)') }}
+
+{{ debian_codename('trusty', 'firefly') }}
+{{ debian_codename('xenial', 'jewel') }}
+{{ debian_codename('artful', 'luminous') }}
+{{ debian_codename('bionic', 'luminous') }}
+{{ debian_codename('cosmic', 'luminous') }}
+
+{{ redhat_codename('Fedora-27', 'luminous', 'Fedora 27 (Twenty Seven)') }}
+{{ redhat_codename('Fedora-26', 'luminous', 'Fedora 26 (Twenty Six)') }}
+
+# vim: ft=sls
