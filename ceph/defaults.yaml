@@ -2,7 +2,7 @@
 # vim: ft=yaml
 
 ceph:
-  release: jewel
+  release: luminous
   packages:
     - ceph
   cluster_name: ceph
