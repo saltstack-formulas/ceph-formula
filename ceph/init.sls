@@ -1,30 +1,30 @@
 # -*- coding: utf-8 -*-
 # vim: ft=yaml
 
-{% from "ceph/map.jinja" import settings with context -%}
+{% from "ceph/map.jinja" import ceph with context -%}
 
 include:
   - ceph.repo
 
 install_ceph_pkgs:
   pkg.installed:
-    - pkgs: {{ settings.packages }}
+    - pkgs: {{ ceph.packages }}
 
 create_ceph_config_file:
   file.touch:
-    - name: {{ settings.config.file }}
-    - unless: test -e {{ settings.config.file }}
+    - name: {{ ceph.config.file }}
+    - unless: test -e {{ ceph.config.file }}
 
 ceph_config_file:
   ini.options_present:
-    - name: {{ settings.config.file }}
+    - name: {{ ceph.config.file }}
     - sections:
         global:
-          {{ settings.config.global }}
+          {{ ceph.config.global }}
 
 ceph_config_mon_host:
   ini.options_present:
-    - name: {{ settings.config.file }}
+    - name: {{ ceph.config.file }}
     - sections:
         global:
-          mon_host: {{ settings.mon_hosts|join(', ') }}
+          mon_host: {{ ceph.mon_hosts|join(', ') }}

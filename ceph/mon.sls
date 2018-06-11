@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 # vim: ft=yaml
 
-{% from "ceph/map.jinja" import settings with context -%}
+{% from "ceph/map.jinja" import ceph with context -%}
 
 {% set mon_name = grains['host'] %}
-{% set mon_dir = '/var/lib/ceph/mon/' ~ settings.cluster_name ~ '-' ~ mon_name %}
+{% set mon_dir = '/var/lib/ceph/mon/' ~ ceph.cluster_name ~ '-' ~ mon_name %}
 
 mkdir_dir_for_{{ mon_name }}:
   file.directory:
@@ -14,7 +14,7 @@ mkdir_dir_for_{{ mon_name }}:
 
 add_mon_{{ mon_name }}:
   cmd.run:
-    - name: "ceph-mon --cluster {{ settings.cluster_name }} --setuser ceph --setgroup ceph --mkfs --id {{ mon_name }} --keyring /dev/null"
+    - name: "ceph-mon --cluster {{ ceph.cluster_name }} --setuser ceph --setgroup ceph --mkfs --id {{ mon_name }} --keyring /dev/null"
     - unless: 'test -d {{ mon_dir }}/store.db'
 
 start_mon_service_for_{{ mon_name }}:
