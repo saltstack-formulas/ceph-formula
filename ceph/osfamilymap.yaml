@@ -1,0 +1,27 @@
+{%- from tpldir + '/repo/map.jinja' import repo with context %}
+
+Debian:
+  pkg_repo:
+    name: deb {{ repo.official }}/debian-{{ repo.release }}/ {{ grains.oscodename }} main
+    humanname: Ceph {{ repo.release }} Debian Repository
+    key_url: '{{ repo.official }}/keys/release.asc'
+    file: /etc/apt/sources.list.d/ceph.list
+
+RedHat:
+  pkg_repo:
+    name: ceph-redhat-{{ repo.release }}
+    humanname: Ceph {{ repo.release }} $releasever - $basearch
+    gpgcheck: 1
+    gpgkey: '{{ repo.official }}/keys/release.asc'
+    baseurl: '{{ repo.official }}/rpm-{{ repo.release }}/el{{ grains.osmajorrelease }}/$basearch'
+
+Suse:
+  pkg_repo:
+    name: ceph-opensuse-{{ repo.release }}
+    humanname: Ceph {{ repo.release }} $releasever - $basearch
+    baseurl: '{{ repo.suse }}:/ceph:/{{ repo.release }}/{{ repo.oscode }}/$basearch'
+    key_url: '{{ repo.suse }}:/ceph:/{{ repo.release }}/{{ repo.oscode }}/repodata/repomd.xml.key'
+    gpgcheck: 1
+    gpgautoimport: True
+
+# vim: ft=sls

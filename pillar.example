@@ -1,16 +1,19 @@
 ceph:
-  release: jewel #Set release name
-  # Set ceph config file settings
+  release: luminous
+  use_upstream_repo: false
+
   config:
-    # Set global section configuration
+    file: /etc/ceph/ceph.conf
     global:
       # Set cluster id, use command 'uuidgen' to generate it
       fsid: 0fffffff-35be-40a0-a76e-fff899cb85da
       authentication_type: 'none'
+
   # Ceph mon list
   mon_hosts:
     - 10.0.1.10
     - 10.0.1.11
+
   osds:
     # Active OSD device list
     active:

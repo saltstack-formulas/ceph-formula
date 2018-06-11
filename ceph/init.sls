@@ -4,7 +4,7 @@
 {% from "ceph/map.jinja" import settings with context -%}
 
 include:
-  - .repo
+  - ceph.repo
 
 install_ceph_pkgs:
   pkg.installed:

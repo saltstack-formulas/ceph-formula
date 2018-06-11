@@ -2,7 +2,9 @@
 # vim: ft=yaml
 
 ceph:
-  release: jewel
+  release: luminous
+  use_upstream_repo: true
+  fromrepo: ''
   packages:
     - ceph
   cluster_name: ceph

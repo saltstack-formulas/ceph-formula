@@ -1,0 +1,32 @@
+# -*- coding: utf-8 -*-
+# vim: ft=jinja
+
+{% import_yaml "ceph/defaults.yaml" as defaults %}
+
+{% set use_upstream_repo = salt['pillar.get']('ceph:use_upstream_repo', defaults.ceph.use_upstream_repo) %}
+{% set release = salt['pillar.get']('ceph:release', defaults.ceph.release) %}
+{% set fromrepo = salt['pillar.get']('ceph:fromrepo', defaults.ceph.fromrepo) %}
+{% set oscode = salt['grains.get']('oscodename') | replace(' ','_') %}
+{% set user = salt['pillar.get']('ceph.user', None) %}
+{% set group = salt['pillar.get']('ceph.group', None) %}
+
+{% if grains.os == 'MacOS' %}
+  {% set user = salt['pillar.get']('ceph.user') or salt['cmd.run']("stat -f '%Su' /dev/console") %}
+  {% set group = salt['pillar.get']('ceph.group') or salt['cmd.run']("stat -f '%Sg' /dev/console") %}
+{% endif %}
+
+{% set official = 'https://download.ceph.com' %}
+{% set suse = 'https://download.opensuse.org/repositories/filesystems' %}
+
+{%- set repo = {} %}
+{%- do repo.update( { 'use_upstream_repo' : use_upstream_repo,
+                      'release'           : release,
+                      'fromrepo'          : fromrepo,
+                      'oscode'            : oscode,
+                      'user'              : user,
+                      'group'             : group, 
+                      'official'          : official,
+                      'suse'              : suse,
+                    } ) %}
+
+# vim: ft=jinja

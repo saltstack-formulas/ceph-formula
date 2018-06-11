@@ -1,0 +1,11 @@
+{%- from "ceph/map.jinja" import ceph with context -%}
+
+{%- macro format_kwargs(kwarg) -%}
+  {%- filter indent(4) %}
+    {%- for k, v in kwarg|dictsort() %}
+- {{ k }}: {{ v }}
+    {%- endfor %}
+  {%- endfilter %}
+{%- endmacro %}
+
+# vim: ft=sls
