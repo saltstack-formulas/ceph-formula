@@ -20,20 +20,30 @@ Available states
 
 Install and configure Ceph
 
-``repo``
-----------
-
-Configure ceph repository.
-
-``mon``
+``ceph.mon``
 ----------
 
 Install and configure Ceph monitor.
 
-``osd``
+``ceph.osd``
 ----------
 
 Install and configure Ceph OSDs.
+
+
+``ceph.repo``
+---------------------
+
+Configures the official Ceph (upstream) repository on target system (either
+`download.ceph.org` or `www.suse.com` mirror).
+
+The state relies on ``ceph:use_upstream_repo`` pillar boolean value-
+
+* ``True`` (default): adds the upstream repository to install packages from.
+* ``False``: makes sure that the repository configuration is absent.
+
+The ``ceph:release`` pillar controls which release to install. Defaults to ``luminous``.
+
 
 
 Usage
