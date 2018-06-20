@@ -23,3 +23,6 @@ ceph:
       - /dev/sdj:/dev/sdb1 # data-path:journal-path
     removed:
       - /dev/sde
+
+  packages:
+    - apt-transport-https
