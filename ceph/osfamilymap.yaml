@@ -13,7 +13,7 @@ RedHat:
     humanname: Ceph {{ repo.release }} $releasever - $basearch
     gpgcheck: 1
     gpgkey: '{{ repo.official }}/keys/release.asc'
-    baseurl: '{{ repo.official }}/rpm-{{ repo.release }}/el{{ grains.osmajorrelease }}/$basearch'
+    baseurl: '{{ repo.official }}/rpm-{{ repo.release }}/el{{ grains.osrelease_info[0] }}/$basearch'
 
 Suse:
   pkg_repo:
