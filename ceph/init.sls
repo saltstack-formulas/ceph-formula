@@ -20,7 +20,7 @@ ceph_config_file:
     - name: {{ ceph.config.file }}
     - sections:
         global:
-          {{ ceph.config.global }}
+          {{ ceph.config.global | json }}
 
 ceph_config_mon_host:
   ini.options_present:

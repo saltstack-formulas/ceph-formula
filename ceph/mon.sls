@@ -20,3 +20,4 @@ add_mon_{{ mon_name }}:
 start_mon_service_for_{{ mon_name }}:
   service.running:
      - name: ceph-mon@{{ mon_name }}
+     - enable: True
