@@ -6,9 +6,14 @@
 {% set use_upstream_repo = salt['pillar.get']('ceph:use_upstream_repo', defaults.ceph.use_upstream_repo) %}
 {% set release = salt['pillar.get']('ceph:release', defaults.ceph.release) %}
 {% set fromrepo = salt['pillar.get']('ceph:fromrepo', defaults.ceph.fromrepo) %}
-{% set oscode = salt['grains.get']('oscodename') | replace(' ','_') %}
 {% set user = salt['pillar.get']('ceph.user', None) %}
 {% set group = salt['pillar.get']('ceph.group', None) %}
+
+{%- if grains.os_family == 'Suse' %}
+    {% set oscode = salt['pillar.get']('ceph.oscode','openSUSE_Tumbleweed') | replace(' ','_') %}
+{%- else %}
+    {% set oscode = salt['pillar.get']('ceph.oscode', salt['grains.get']('oscodename')) | replace(' ','_') %}
+{%- endif %}
 
 {% if grains.os == 'MacOS' %}
   {% set user = salt['pillar.get']('ceph.user') or salt['cmd.run']("stat -f '%Su' /dev/console") %}
