@@ -16,10 +16,11 @@ RedHat:
     baseurl: '{{ repo.official }}/rpm-{{ repo.release }}/el{{ grains.osrelease_info[0] }}/$basearch'
 
 Suse:
+  oscode: openSUSE_Tumbleweed
   pkg_repo:
     name: ceph-opensuse-{{ repo.release }}
     humanname: Ceph {{ repo.release }} $releasever - $basearch
-    baseurl: '{{ repo.suse }}:/ceph:/{{ repo.release }}/{{ repo.oscode }}/$basearch'
+    baseurl: '{{ repo.suse }}:/ceph:/{{ repo.release }}/{{ repo.oscode }}'
     key_url: '{{ repo.suse }}:/ceph:/{{ repo.release }}/{{ repo.oscode }}/repodata/repomd.xml.key'
     gpgcheck: 1
     gpgautoimport: True

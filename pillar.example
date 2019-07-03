@@ -1,6 +1,7 @@
 ceph:
-  release: luminous
+  release: nautilus
   use_upstream_repo: false
+  #oscode: OpenSUSE_Fumbleweed
 
   config:
     file: /etc/ceph/ceph.conf

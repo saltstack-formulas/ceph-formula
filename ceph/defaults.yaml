@@ -2,9 +2,10 @@
 # vim: ft=yaml
 
 ceph:
-  release: luminous
+  release: nautilus
   use_upstream_repo: true
   fromrepo: ''
+  oscode: ''
   packages:
     - ceph
   cluster_name: ceph
