@@ -8,7 +8,7 @@ include:
 
 install_ceph_pkgs:
   pkg.installed:
-    - pkgs: {{ ceph.packages }}
+    - pkgs: {{ ceph.packages|tojson }}
 
 create_ceph_config_file:
   file.touch:
