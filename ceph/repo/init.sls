@@ -28,6 +28,6 @@ ceph-repo:
 ceph-repo:
   test.show_notification:
     - text: |
-        Ceph does not provide package repository for {{ grains['osfinger'] }}
+        Ceph does not provide package repository for {{ grains.os_family }}
 
 {%- endif %}
