@@ -1,5 +1,7 @@
 {%- from tpldir + '/repo/map.jinja' import repo with context %}
 
+    {%- if grains.os_family not in ('FreeBSD',) %}
+
 Debian:
   pkg_repo:
     name: deb {{ repo.official }}/debian-{{ repo.release }}/ {{ grains.oscodename }} main
@@ -24,5 +26,7 @@ Suse:
     key_url: '{{ repo.suse }}:/ceph:/{{ repo.release }}/{{ repo.oscode }}/repodata/repomd.xml.key'
     gpgcheck: 1
     gpgautoimport: True
+
+    {%- endif %}
 
 # vim: ft=sls

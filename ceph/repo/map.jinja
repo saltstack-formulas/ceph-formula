@@ -11,7 +11,7 @@
 
 {%- if grains.os_family == 'Suse' %}
     {% set oscode = salt['pillar.get']('ceph.oscode','openSUSE_Tumbleweed') | replace(' ','_') %}
-{%- else %}
+{%- elif grains.os_family not in ('FreeBSD',)  %}
     {% set oscode = salt['pillar.get']('ceph.oscode', salt['grains.get']('oscodename')) | replace(' ','_') %}
 {%- endif %}
 
