@@ -9,10 +9,12 @@
 {% set user = salt['pillar.get']('ceph.user', None) %}
 {% set group = salt['pillar.get']('ceph.group', None) %}
 
-{%- if grains.os_family == 'Suse' %}
-    {% set oscode = salt['pillar.get']('ceph.oscode','openSUSE_Tumbleweed') | replace(' ','_') %}
-{%- elif grains.os_family not in ('FreeBSD',)  %}
-    {% set oscode = salt['pillar.get']('ceph.oscode', salt['grains.get']('oscodename')) | replace(' ','_') %}
+{%- if 'oscodename' in grains %}
+    {%- if grains.os_family == 'Suse' %}
+        {% set oscode = salt['pillar.get']('ceph.oscode','openSUSE_Tumbleweed') | replace(' ','_') %}
+    {%- elif grains.os_family not in ('FreeBSD',) %}
+        {% set oscode = salt['pillar.get']('ceph.oscode', salt['grains.get']('oscodename')) | replace(' ','_') %}
+    {%- endif %}
 {%- endif %}
 
 {% if grains.os == 'MacOS' %}

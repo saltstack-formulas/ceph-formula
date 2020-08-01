@@ -1,6 +1,6 @@
 {%- from tpldir + '/repo/map.jinja' import repo with context %}
 
-    {%- if grains.os_family not in ('FreeBSD',) %}
+    {%- if grains.os_family not in ('FreeBSD',) and 'oscodename' in grains %}
 
 Debian:
   pkg_repo:
